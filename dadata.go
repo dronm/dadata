@@ -174,13 +174,16 @@ func checkForError(resp *http.Response, body []byte) error {
 	return nil
 }
 
-func (d *Dadata) FindAddress(query string) (*AddressSuggestionsResponse, error) {
+func (d *Dadata) FindAddress(query string, count int) (*AddressSuggestionsResponse, error) {
 	if query == "" {
 		return nil, ErrMissingQueryParam 
 	}
 
 	payload := map[string]string{
 		"query": query,
+	}
+	if count > 0 {
+		payload["count"] = fmt.Sprintf("%d", count)
 	}
 
 	body, err := json.Marshal(payload);

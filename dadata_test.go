@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/joho/godotenv"
@@ -15,6 +16,7 @@ const (
 	ENV_VAR_DADATA_TEST_INN  = "DADATA_TEST_INN"
 	ENV_VAR_DADATA_TEST_IP   = "DADATA_TEST_IP"
 	ENV_VAR_DADATA_TEST_ADDR = "DADATA_TEST_ADDR"
+	ENV_VAR_DADATA_TEST_COUNT = "DADATA_TEST_COUNT"
 )
 
 func TestMain(m *testing.M) {
@@ -61,7 +63,12 @@ func TestFindById(t *testing.T) {
 
 func TestFindAddress(t *testing.T) {
 	dadata := Dadata{Key: os.Getenv(ENV_VAR_DADATA_KEY)}
-	addr, err := dadata.FindAddress(os.Getenv(ENV_VAR_DADATA_TEST_ADDR))
+	cnt, err := strconv.Atoi(os.Getenv(ENV_VAR_DADATA_TEST_COUNT))
+	if err != nil {
+		t.Fatalf("%v", err)
+	}
+
+	addr, err := dadata.FindAddress(os.Getenv(ENV_VAR_DADATA_TEST_ADDR), cnt)
 	if err := PrintStruct(addr); err != nil {
 		t.Fatalf("%v", err)
 	}
