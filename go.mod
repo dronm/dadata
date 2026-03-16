@@ -1,4 +1,4 @@
-module dadata
+module github.com/dronm/dadata
 
 go 1.15
 
